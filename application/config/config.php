@@ -13,6 +13,6 @@ define('URL', URL_PROTOCOL . URL_DOMAIN . URL_SUB_FOLDER);
 define('DB_TYPE', 'mysql');
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'butterfly');
-define('DB_USER', 'user');
-define('DB_PASS', 'pass');
+define('DB_USER', 'root');
+define('DB_PASS', 'theBat1!');
 define('DB_CHARSET', 'utf8');

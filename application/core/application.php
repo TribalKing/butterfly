@@ -19,12 +19,17 @@ class Application
         $this->checkRoute();
 
         if (!$this->url_controller) {
+
             require APP . 'controller/home.php';
+
             $page = new Home();
+
             $page->index();
+
         } elseif (file_exists(APP . 'controller/' . $this->url_controller . '.php')) {
             require APP . 'controller/' . $this->url_controller . '.php';
             $this->url_controller = new $this->url_controller();
+
             if (method_exists($this->url_controller, $this->url_action)) {
                 if (!empty($this->url_params)) {
                     call_user_func_array(array($this->url_controller, $this->url_action), $this->url_params);
@@ -36,11 +41,11 @@ class Application
                     $this->url_controller->index();
                 }
                 else {
-                    header('location: ' . URL . 'problem');
+                    header('location: ' . URL . 'public/home');
                 }
             }
         } else {
-            header('location: ' . URL . 'problem');
+            header('location: ' . URL . 'public/home');
         }
     }
 
@@ -51,18 +56,23 @@ class Application
     {
         if (isset($_SERVER['REQUEST_URI'])) {
 
-            $url = trim($_SERVER[REQUEST_URI], '/');
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = explode('/', $url);
+            $url = explode('/', $_SERVER[REQUEST_URI]);
+            $this->url_controller = 'home';
 
-            $this->url_controller = isset($url[0]) ? $url[0] : null;
-            $this->url_action = isset($url[1]) ? $url[1] : null;
+            $part = end($url);
 
-            // Remove controller and action from the split URL
-            unset($url[0], $url[1]);
+            if($part != 'home'){
+                $this->url_action = end($url);
+            }
+
+            if($part != 'create' && $part != '' && $part != 'index' && $part != 'problem' && $part != 'home'){
+                $this->url_action = 'delete';
+            }
 
             // Rebase array keys and store the URL params
             $this->url_params = array_values($url);
+
+
         }
     }
 }

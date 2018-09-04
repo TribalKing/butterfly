@@ -1,4 +1,4 @@
-<form action="<?php echo URL; ?>home/create" method="POST">
+<form action="<?php echo URL; ?>public/home/create" method="POST">
     <div class="table-responsive-sm">
         <table class="table table-dark">
             <thead>
@@ -59,7 +59,7 @@
             <td><?php if (isset($user->name)) echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?></td>
             <td><?php if (isset($user->age)) echo htmlspecialchars($user->age, ENT_QUOTES, 'UTF-8'); ?></td>
             <td><a class="btn btn-danger"
-                   href="<?php echo URL . 'home/delete/' . htmlspecialchars($user->id, ENT_QUOTES, 'UTF-8'); ?>">delete</a>
+                   href="<?php echo URL . 'public/home/delete/' . htmlspecialchars($user->id, ENT_QUOTES, 'UTF-8'); ?>">delete</a>
             </td>
         </tr>
     <?php } ?>

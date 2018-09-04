@@ -12,7 +12,7 @@ class Home extends Controller
      */
     public function index()
     {
-        $users              = $this->model->getAllUsers();
+        $users = $this->model->getAllUsers();
 
         // load views
         require APP . 'view/includes/header.php';
@@ -30,7 +30,7 @@ class Home extends Controller
             $this->model->addUser($_POST["name"], $_POST["age"]);
         }
 
-        header('location: ' . URL . 'home/index');
+        header('location: ' . URL . 'public/home/index');
     }
 
     /**
@@ -38,11 +38,15 @@ class Home extends Controller
      */
     public function delete($user_id)
     {
-        if (isset($user_id)) {
-            $this->model->deleteUser($user_id);
-        }
+        $url = explode('/', $_SERVER[REQUEST_URI]);
 
-        header('location: ' . URL . 'home/index');
+        $user_id = end($url);
+        if ($part != 'home' || $part != 'create') {
+            if (isset($user_id)) {
+                $this->model->deleteUser($user_id);
+            }
+        }
+        header('location: ' . URL . 'public/home/index');
     }
 
     private function validation($name, $age)
@@ -50,21 +54,21 @@ class Home extends Controller
         // Checking spaces in name
         if (strpos($name, ' ') !== false || strpos($age, ' ') !== false) {
             $_SESSION['flash'] = 'Space is not allowed.';
-            header('location: ' . URL . 'home/index');
+            header('location: ' . URL . 'public/home/index');
             die();
         }
 
         // Age restriction
         if ($age > 120) {
             $_SESSION['flash'] = 'You cannot be older then 120 years.';
-            header('location: ' . URL . 'home/index');
+            header('location: ' . URL . 'public/home/index');
             die();
         }
 
         // Name length
         if (strlen($name) > 30) {
             $_SESSION['flash'] = 'Your name cannot be that long.';
-            header('location: ' . URL . 'home/index');
+            header('location: ' . URL . 'public/home/index');
             die();
         }
     }
